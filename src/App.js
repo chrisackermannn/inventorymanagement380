@@ -31,3 +31,4 @@ const App = () => {
 
 export default App;
 // app.js
+// app.js part 2
