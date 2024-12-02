@@ -185,6 +185,21 @@ body {
     color: #4caf50;
     text-decoration: none;
   }
-  
+  /* Priority Dot Styles */
+.priority-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.priority-high {
+  background-color: red;
+}
+
+.priority-normal {
+  background-color: green;
+}
+
   
   
