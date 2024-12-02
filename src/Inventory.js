@@ -46,7 +46,6 @@ const Inventory = ({ user }) => {
     }
   };
 
-  // Determine the priority status of an item
   const getPriorityStatus = (item) => {
     if (item.stock < item.min || item.stock > item.max) return "priority-high";
     return "priority-normal";
