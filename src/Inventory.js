@@ -42,10 +42,11 @@ const Inventory = ({ user }) => {
     if (editingItem) {
       const { id, ...updatedData } = editingItem;
       userInventoryRef.child(id).update(updatedData);
-      setEditingItem(null);
+      setEditingItem(null); // Exit edit mode after saving
     }
   };
 
+  // Determine the priority status of an item
   const getPriorityStatus = (item) => {
     if (item.stock < item.min || item.stock > item.max) return "priority-high";
     return "priority-normal";
@@ -126,22 +127,84 @@ const Inventory = ({ user }) => {
                 <td>
                   <span className={`priority-dot ${getPriorityStatus(item)}`}></span>
                 </td>
-                <td>{item.name}</td>
-                <td>{item.stock}</td>
+                <td>
+                  {editingItem?.id === item.id ? (
+                    <input
+                      type="text"
+                      value={editingItem.name}
+                      onChange={(e) =>
+                        setEditingItem({ ...editingItem, name: e.target.value })
+                      }
+                      className="edit-input"
+                    />
+                  ) : (
+                    item.name
+                  )}
+                </td>
+                <td>
+                  {editingItem?.id === item.id ? (
+                    <input
+                      type="number"
+                      value={editingItem.stock}
+                      onChange={(e) =>
+                        setEditingItem({
+                          ...editingItem,
+                          stock: parseInt(e.target.value, 10),
+                        })
+                      }
+                      className="edit-input"
+                    />
+                  ) : (
+                    item.stock
+                  )}
+                </td>
                 <td>{item.min}</td>
                 <td>{item.max}</td>
                 <td>
-                  <a href={item.link} target="_blank" rel="noopener noreferrer">
-                    Order Now
-                  </a>
+                  {editingItem?.id === item.id ? (
+                    <input
+                      type="url"
+                      value={editingItem.link}
+                      onChange={(e) =>
+                        setEditingItem({ ...editingItem, link: e.target.value })
+                      }
+                      className="edit-input"
+                    />
+                  ) : (
+                    <a href={item.link} target="_blank" rel="noopener noreferrer">
+                      Order Now
+                    </a>
+                  )}
                 </td>
                 <td>
-                  <button
-                    className="delete-btn"
-                    onClick={() => deleteItem(item.id)}
-                  >
-                    Delete
-                  </button>
+                  {editingItem?.id === item.id ? (
+                    <>
+                      <button className="save-btn" onClick={updateItem}>
+                        Save
+                      </button>
+                      <button
+                        className="cancel-btn"
+                        onClick={() => setEditingItem(null)}
+                      >
+                        Cancel
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        className="edit-btn"
+                        onClick={() => setEditingItem(item)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="delete-btn"
+                        onClick={() => deleteItem(item.id)}
+                      >
+                        Delete
+                      </button>
+                    </>
+                  )}
                 </td>
               </tr>
             ))}
