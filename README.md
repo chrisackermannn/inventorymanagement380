@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 inventorymanagement380 Final Project
 =======
 Small Business Inventory Management Website
